@@ -11,9 +11,9 @@ res.send(`
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<title>Profile</title>
+<title>ZAYY Profile</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -25,37 +25,53 @@ res.send(`
         font-family: "Poppins", sans-serif;
     }
 
+    html, body {
+        height: 100%;
+        width: 100%;
+    }
+
     body {
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: radial-gradient(circle at top, #1f1f1f, #0b0b0b);
         padding: 20px;
+
+        background: radial-gradient(circle at top, #1f1f1f, #0b0b0b);
+        overflow-x: hidden;
+    }
+
+    /* glow background */
+    body::before,
+    body::after {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        filter: blur(140px);
+        opacity: 0.12;
+        z-index: 0;
     }
 
     body::before {
-        content: "";
-        position: absolute;
-        width: 400px;
-        height: 400px;
         background: #25D366;
-        filter: blur(140px);
-        opacity: 0.12;
         top: -120px;
         left: -120px;
     }
 
     body::after {
-        content: "";
-        position: absolute;
-        width: 400px;
-        height: 400px;
         background: #ff4fd8;
-        filter: blur(150px);
-        opacity: 0.08;
         bottom: -120px;
         right: -120px;
+    }
+
+    /* CENTER FIX FULL */
+    .wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
     }
 
     .card {
@@ -63,19 +79,20 @@ res.send(`
         max-width: 340px;
         padding: 22px;
         border-radius: 18px;
+
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(12px);
+
         border: 1px solid rgba(255,255,255,0.08);
+
         text-align: center;
+
         box-shadow: 0 0 25px rgba(37, 211, 102, 0.08);
-        z-index: 2;
     }
 
-    /* FIX AVATAR BIAR PORTRAIT / RAPI */
     .avatar {
-        width: 100%;
-        max-width: 120px;
-        height: 120px;
+        width: 110px;
+        height: 110px;
         object-fit: cover;
         border-radius: 50%;
         border: 2px solid #25D366;
@@ -84,7 +101,7 @@ res.send(`
 
     h2 {
         color: white;
-        font-size: 18px;
+        font-size: 20px;
     }
 
     p {
@@ -93,7 +110,6 @@ res.send(`
         margin-bottom: 15px;
     }
 
-    /* BUTTON BIAR GAMPANG DIPENCET DI HP */
     .btn {
         display: block;
         width: 100%;
@@ -103,7 +119,6 @@ res.send(`
         text-decoration: none;
         font-size: 14px;
         font-weight: 500;
-        text-align: center;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
     }
@@ -117,9 +132,10 @@ res.send(`
         background: #ffb300;
         color: black;
         border: none;
+        cursor: pointer;
     }
 
-    /* POPUP */
+    /* POPUP FIX (Z-INDEX MASUK DEPAN) */
     .popup {
         display: none;
         position: fixed;
@@ -127,6 +143,7 @@ res.send(`
         background: rgba(0,0,0,0.75);
         justify-content: center;
         align-items: center;
+        z-index: 9999; /* INI YANG BENER */
         padding: 20px;
     }
 
@@ -137,11 +154,11 @@ res.send(`
         text-align: center;
         width: 100%;
         max-width: 280px;
+        z-index: 10000;
     }
 
     .popup-box img {
         width: 100%;
-        max-width: 240px;
         border-radius: 10px;
     }
 
@@ -151,8 +168,7 @@ res.send(`
         background: red;
         color: white;
         border-radius: 10px;
-        display: inline-block;
-        width: 100%;
+        display: block;
         cursor: pointer;
     }
 </style>
@@ -160,9 +176,10 @@ res.send(`
 
 <body>
 
+<div class="wrapper">
 <div class="card">
     <img class="avatar" src="${PROFILE_PIC}" />
-    <h2>Nama Kamu</h2>
+    <h2>ZAYY</h2>
     <p>Simple Profile • Bot Owner</p>
 
     <a class="btn wa" href="${WA_CHANNEL}" target="_blank">
@@ -172,6 +189,7 @@ res.send(`
     <button class="btn qris" onclick="openQRIS()">
         QRIS Donation
     </button>
+</div>
 </div>
 
 <!-- POPUP -->
@@ -199,4 +217,4 @@ function closeQRIS(){
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log("Profile running on " + PORT))
+app.listen(PORT, () => console.log("ZAYY profile running on " + PORT))
