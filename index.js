@@ -11,7 +11,9 @@ res.send(`
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- 🔒 LOCK ZOOM TOTAL -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
 <title>ZAYY Profile</title>
 
@@ -26,26 +28,26 @@ res.send(`
     }
 
     html, body {
-        height: 100%;
         width: 100%;
+        height: 100%;
+        overscroll-behavior: none;
+        touch-action: manipulation;
     }
 
     body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
         background: radial-gradient(circle at top, #1f1f1f, #0b0b0b);
-        overflow-x: hidden;
+        padding: 20px;
+        overflow: hidden;
     }
 
     /* glow background */
     body::before,
     body::after {
         content: "";
-        position: absolute;
+        position: fixed;
         width: 420px;
         height: 420px;
         filter: blur(140px);
@@ -65,18 +67,13 @@ res.send(`
         right: -120px;
     }
 
-    /* CENTER FIX FULL */
-    .wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 2;
-    }
-
     .card {
+        position: relative;
+        z-index: 2;
+
         width: 100%;
         max-width: 340px;
+
         padding: 22px;
         border-radius: 18px;
 
@@ -131,11 +128,11 @@ res.send(`
     .qris {
         background: #ffb300;
         color: black;
-        border: none;
         cursor: pointer;
+        border: none;
     }
 
-    /* POPUP FIX (Z-INDEX MASUK DEPAN) */
+    /* POPUP FIX FULL FRONT */
     .popup {
         display: none;
         position: fixed;
@@ -143,7 +140,7 @@ res.send(`
         background: rgba(0,0,0,0.75);
         justify-content: center;
         align-items: center;
-        z-index: 9999; /* INI YANG BENER */
+        z-index: 99999;
         padding: 20px;
     }
 
@@ -154,7 +151,6 @@ res.send(`
         text-align: center;
         width: 100%;
         max-width: 280px;
-        z-index: 10000;
     }
 
     .popup-box img {
@@ -176,7 +172,6 @@ res.send(`
 
 <body>
 
-<div class="wrapper">
 <div class="card">
     <img class="avatar" src="${PROFILE_PIC}" />
     <h2>ZAYY</h2>
@@ -189,7 +184,6 @@ res.send(`
     <button class="btn qris" onclick="openQRIS()">
         QRIS Donation
     </button>
-</div>
 </div>
 
 <!-- POPUP -->
