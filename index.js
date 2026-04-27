@@ -1,7 +1,6 @@
 const express = require("express")
 const app = express()
 
-// LINK KAMU
 const WA_CHANNEL = "https://whatsapp.com/channel/0029Vb7cmHW42DcZf5Gdgk2p"
 const PROFILE_PIC = "https://i.ibb.co/fzVc6n81/image.jpg"
 const QRIS_IMAGE = "https://i.ibb.co/QLWNwk8/image.jpg"
@@ -12,7 +11,8 @@ res.send(`
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 <title>Profile</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -26,12 +26,12 @@ res.send(`
     }
 
     body {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         background: radial-gradient(circle at top, #1f1f1f, #0b0b0b);
-        overflow: hidden;
+        padding: 20px;
     }
 
     body::before {
@@ -41,9 +41,9 @@ res.send(`
         height: 400px;
         background: #25D366;
         filter: blur(140px);
-        opacity: 0.15;
-        top: -100px;
-        left: -100px;
+        opacity: 0.12;
+        top: -120px;
+        left: -120px;
     }
 
     body::after {
@@ -59,84 +59,101 @@ res.send(`
     }
 
     .card {
-        position: relative;
-        width: 320px;
-        padding: 25px;
+        width: 100%;
+        max-width: 340px;
+        padding: 22px;
         border-radius: 18px;
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255,255,255,0.08);
         text-align: center;
         box-shadow: 0 0 25px rgba(37, 211, 102, 0.08);
+        z-index: 2;
     }
 
-    img.avatar {
-        width: 90px;
-        height: 90px;
+    /* FIX AVATAR BIAR PORTRAIT / RAPI */
+    .avatar {
+        width: 100%;
+        max-width: 120px;
+        height: 120px;
+        object-fit: cover;
         border-radius: 50%;
         border: 2px solid #25D366;
         margin-bottom: 10px;
     }
 
-    h2 { color: white; }
-    p { color: #aaa; font-size: 12px; margin-bottom: 15px; }
-
-    a {
-        display: block;
-        padding: 10px;
-        margin: 8px 0;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
-        transition: 0.2s;
+    h2 {
+        color: white;
+        font-size: 18px;
     }
 
-    .wa { background:#25D366; color:black; }
-    .wa:hover { filter: brightness(1.1); }
+    p {
+        color: #aaa;
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    /* BUTTON BIAR GAMPANG DIPENCET DI HP */
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .wa {
+        background: #25D366;
+        color: black;
+    }
 
     .qris {
-        background:#ffb300;
-        color:black;
-        cursor:pointer;
+        background: #ffb300;
+        color: black;
+        border: none;
     }
 
-    .qris:hover { filter: brightness(1.1); }
-
-    /* POPUP QRIS */
+    /* POPUP */
     .popup {
-        display:none;
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.75);
-        justify-content:center;
-        align-items:center;
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.75);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
     }
 
-    .popup-content {
-        background:#1a1a1a;
-        padding:20px;
-        border-radius:12px;
-        text-align:center;
+    .popup-box {
+        background: #1a1a1a;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        width: 100%;
+        max-width: 280px;
     }
 
-    .popup-content img {
-        width:220px;
-        border-radius:10px;
+    .popup-box img {
+        width: 100%;
+        max-width: 240px;
+        border-radius: 10px;
     }
 
     .close {
-        margin-top:10px;
-        display:inline-block;
-        padding:6px 12px;
-        background:red;
-        color:white;
-        border-radius:8px;
-        cursor:pointer;
-        font-size:12px;
+        margin-top: 10px;
+        padding: 10px;
+        background: red;
+        color: white;
+        border-radius: 10px;
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
     }
 </style>
 </head>
@@ -148,15 +165,19 @@ res.send(`
     <h2>Nama Kamu</h2>
     <p>Simple Profile • Bot Owner</p>
 
-    <a class="wa" href="${WA_CHANNEL}">WhatsApp Channel</a>
+    <a class="btn wa" href="${WA_CHANNEL}" target="_blank">
+        WhatsApp Channel
+    </a>
 
-    <a class="qris" onclick="openQRIS()">QRIS Donation</a>
+    <button class="btn qris" onclick="openQRIS()">
+        QRIS Donation
+    </button>
 </div>
 
-<!-- POPUP QRIS -->
+<!-- POPUP -->
 <div class="popup" id="popup">
-    <div class="popup-content">
-        <h3 style="color:white;">QRIS Donation</h3>
+    <div class="popup-box">
+        <h3 style="color:white;margin-bottom:10px;">QRIS</h3>
         <img src="${QRIS_IMAGE}" />
         <div class="close" onclick="closeQRIS()">Tutup</div>
     </div>
@@ -164,11 +185,11 @@ res.send(`
 
 <script>
 function openQRIS(){
-    document.getElementById('popup').style.display = 'flex'
+    document.getElementById("popup").style.display = "flex"
 }
 
 function closeQRIS(){
-    document.getElementById('popup').style.display = 'none'
+    document.getElementById("popup").style.display = "none"
 }
 </script>
 
